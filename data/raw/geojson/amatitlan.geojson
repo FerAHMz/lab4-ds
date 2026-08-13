@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "lago": "amatitlan"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.638065,
+              14.412347
+            ],
+            [
+              -90.512924,
+              14.412347
+            ],
+            [
+              -90.512924,
+              14.493799
+            ],
+            [
+              -90.638065,
+              14.493799
+            ],
+            [
+              -90.638065,
+              14.412347
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
