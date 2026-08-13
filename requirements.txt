@@ -1,0 +1,13 @@
+openeo>=0.28
+numpy
+pandas
+xarray
+rioxarray
+netCDF4
+matplotlib
+seaborn
+folium
+geopandas
+shapely
+scipy
+jupyter
