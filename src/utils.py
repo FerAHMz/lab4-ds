@@ -49,13 +49,25 @@ def calcular_indices(ds: xr.Dataset) -> xr.Dataset:
     Valores altos de NDCI sobre agua indican concentración de clorofila-a
     asociada a floraciones de cianobacteria.
     """
+    ndvi = (ds["B08"] - ds["B04"]) / (ds["B08"] + ds["B04"])
+    ndwi = (ds["B03"] - ds["B08"]) / (ds["B03"] + ds["B08"])
+    cyano = (ds["B05"] - ds["B04"]) / (ds["B05"] + ds["B04"])
+
+    # Solo son válidos los píxeles con reflectancia positiva en las cuatro
+    # bandas. Algunas escenas (p. ej. 2025-01-18) traen bloques grandes de
+    # nodata con valores <=0 que hacen que el cociente se dispare fuera de
+    # [-1, 1]; hay que descartarlos antes de promediar.
+    valido = (ds["B03"] > 0) & (ds["B04"] > 0) & (ds["B05"] > 0) & (ds["B08"] > 0)
+
+    def limpiar(da):
+        return da.where(np.isfinite(da)).clip(-1.0, 1.0).where(valido)
+
     out = xr.Dataset()
-    out["ndvi"] = (ds["B08"] - ds["B04"]) / (ds["B08"] + ds["B04"])
-    out["ndwi"] = (ds["B03"] - ds["B08"]) / (ds["B03"] + ds["B08"])
-    out["cyano"] = (ds["B05"] - ds["B04"]) / (ds["B05"] + ds["B04"])
-    agua = mascara_agua(ds)
+    out["ndvi"] = limpiar(ndvi)
+    out["ndwi"] = limpiar(ndwi)
+    agua = mascara_agua(ds) & valido
     # los índices de agua solo tienen sentido dentro del lago
-    out["cyano"] = out["cyano"].where(agua)
+    out["cyano"] = limpiar(cyano).where(agua)
     out["agua"] = agua
     return out
 
