@@ -16,6 +16,7 @@ ETAPAS = {
     "04": "04_analisis_espacial.py",
     "05": "05_correlacion.py",
     "06": "06_exploratorio.py",
+    "07": "07_comparativo.py",
 }
 
 
