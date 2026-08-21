@@ -11,3 +11,5 @@ geopandas
 shapely
 scipy
 jupyter
+scikit-learn
+joblib
